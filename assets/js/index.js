@@ -1,0 +1,4 @@
+
+    function clickEvent() {
+        alert('クリックされました');
+    }
