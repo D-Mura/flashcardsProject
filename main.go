@@ -1,6 +1,47 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	_ "github.com/mattn/go-sqlite3"
+)
+
+type Body struct {
+}
+
+type Wiki struct {
+}
+
+type User struct {
+	gorm.Model
+	Name string
+}
+
+func db_init() {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		fmt.Println("failed to connect database(init)")
+	}
+	defer db.Close()
+
+	db.AutoMigrate(&User{})
+}
+
+func get_all_User() []User {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(get_all)")
+	}
+
+	defer db.Close()
+
+	var user []User
+	db.Find(&user)
+	return user
+
+}
 
 func main() {
 	r := gin.Default()
@@ -11,13 +52,14 @@ func main() {
 	// Templateの読み込み
 	r.LoadHTMLGlob("./templates/*")
 
-	//db_init()
+	db_init()
 
 	// 全件取得
 	r.GET("/", func(c *gin.Context) {
-		//people := get_all()
+		user := get_all_User()
+
 		c.HTML(200, "index.tmpl", gin.H{
-			"people": "people",
+			"user": user,
 		})
 	})
 	/*
