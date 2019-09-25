@@ -16,7 +16,8 @@ type Wiki struct {
 
 type User struct {
 	gorm.Model
-	Name string
+	Name     string
+	Password string
 }
 
 func db_init() {
@@ -29,10 +30,13 @@ func db_init() {
 	db.AutoMigrate(&User{})
 }
 
+/*
+ * ユーザ全件取得
+ */
 func get_all_User() []User {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
-		panic("failed to connect database(get_all)")
+		panic("failed to connect database(get_all_user)")
 	}
 
 	defer db.Close()
@@ -41,6 +45,17 @@ func get_all_User() []User {
 	db.Find(&user)
 	return user
 
+}
+
+/*
+ * ユーザ作成
+ */
+func create_user(name string, password string) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(create_user)")
+	}
+	db.Create(&User{Name: name, Password: password})
 }
 
 func main() {
@@ -54,23 +69,22 @@ func main() {
 
 	db_init()
 
-	// 全件取得
-	r.GET("/", func(c *gin.Context) {
+	// ユーザ情報全件取得
+	r.GET("/user", func(c *gin.Context) {
 		user := get_all_User()
 
-		c.HTML(200, "index.tmpl", gin.H{
+		c.HTML(200, "userInfo.tmpl", gin.H{
 			"user": user,
 		})
 	})
-	/*
 
-		// 新規作成
-		r.POST("/new", func(c *gin.Context) {
-			name := c.PostForm("name")
-			age, _ := strconv.Atoi(c.PostForm("age"))
-			create(name, age)
-			c.Redirect(302, "/")
-		})
-	*/
+	// ユーザ新規作成
+	r.POST("/new_user", func(c *gin.Context) {
+		name := c.PostForm("name")
+		password := c.PostForm("password")
+		create_user(name, password)
+		c.Redirect(302, "/user")
+	})
+
 	r.Run()
 }
