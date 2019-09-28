@@ -1,5 +1,12 @@
-$('.btn').click(function(){
+$('.con').click(function(){
     alert("test");
+})
+
+$('.del').click(function(){
+    var result = confirm("本当に削除しますか");
+    if (!result) {
+        return false;
+    }
 })
 
 

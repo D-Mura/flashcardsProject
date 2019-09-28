@@ -85,7 +85,7 @@ func create_user(name string, password string) {
 func update_user(id int, name string, password string) {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
-		panic("faile to connect database(update_user)")
+		panic("failed to connect database(update_user)")
 	}
 	defer db.Close()
 
@@ -94,6 +94,23 @@ func update_user(id int, name string, password string) {
 	user.Name = name
 	user.Password = password
 	db.Save(&user)
+}
+
+/*
+ * ユーザの削除
+ */
+func delete_user(id int) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(delete_user")
+	}
+
+	defer db.Close()
+
+	var user User
+	db.First(&user, id)
+	db.Delete(&user)
+
 }
 
 func main() {
@@ -151,6 +168,18 @@ func main() {
 		update_user(id, name, password)
 		c.Redirect(302, "/user/"+num)
 
+	})
+
+	// ユーザの削除
+	r.POST("/user/:id/delete", func(c *gin.Context) {
+		num := c.Param("id")
+		id, err := strconv.Atoi(num)
+		if err != nil {
+			panic(err)
+		}
+
+		delete_user(id)
+		c.Redirect(302, "/user")
 	})
 
 	r.Run()
