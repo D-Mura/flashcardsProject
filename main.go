@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -31,9 +32,24 @@ func db_init() {
 }
 
 /*
+ * ユーザ一件取得
+ */
+func get_user_detail(id int) User {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(get_user_detail)")
+	}
+	defer db.Close()
+
+	var user User
+	db.First(&user, id)
+	return user
+}
+
+/*
  * ユーザ全件取得
  */
-func get_all_User() []User {
+func get_all_user() []User {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
 		panic("failed to connect database(get_all_user)")
@@ -55,6 +71,8 @@ func create_user(name string, password string) {
 	if err != nil {
 		panic("failed to connect database(create_user)")
 	}
+	defer db.Close()
+
 	db.Create(&User{Name: name, Password: password})
 }
 
@@ -71,9 +89,23 @@ func main() {
 
 	// ユーザ情報全件取得
 	r.GET("/user", func(c *gin.Context) {
-		user := get_all_User()
+		user := get_all_user()
 
 		c.HTML(200, "userInfo.tmpl", gin.H{
+			"user": user,
+		})
+	})
+
+	// ユーザ情報を一件取得
+	r.GET("/user/:id", func(c *gin.Context) {
+		num := c.Param("id")
+		id, err := strconv.Atoi(num)
+		if err != nil {
+			panic(err)
+		}
+
+		user := get_user_detail(id)
+		c.HTML(200, "userInfoDetail.tmpl", gin.H{
 			"user": user,
 		})
 	})
