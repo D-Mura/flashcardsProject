@@ -21,6 +21,9 @@ type User struct {
 	Password string
 }
 
+/*
+ * DB初期化処理
+ */
 func db_init() {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
@@ -76,6 +79,23 @@ func create_user(name string, password string) {
 	db.Create(&User{Name: name, Password: password})
 }
 
+/*
+ * ユーザの更新
+ */
+func update_user(id int, name string, password string) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("faile to connect database(update_user)")
+	}
+	defer db.Close()
+
+	var user User
+	db.First(&user, id)
+	user.Name = name
+	user.Password = password
+	db.Save(&user)
+}
+
 func main() {
 	r := gin.Default()
 
@@ -116,6 +136,21 @@ func main() {
 		password := c.PostForm("password")
 		create_user(name, password)
 		c.Redirect(302, "/user")
+	})
+
+	// ユーザの更新
+	r.POST("/user/:id/update", func(c *gin.Context) {
+		num := c.Param("id")
+		id, err := strconv.Atoi(num)
+		if err != nil {
+			panic(err)
+		}
+		name := c.PostForm("name")
+		password := c.PostForm("password")
+
+		update_user(id, name, password)
+		c.Redirect(302, "/user/"+num)
+
 	})
 
 	r.Run()
