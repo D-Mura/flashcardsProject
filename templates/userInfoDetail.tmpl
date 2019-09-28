@@ -11,7 +11,10 @@
     <form method="post" action="/user/{{.user.ID}}/update">
         <p>名前：<input type="text" name="name" size="30" value="{{.user.Name}}"></p>
         <p>パスワード：<input type="password" name="password" value="{{.user.Password}}"></p>
-        <button class="btn btn-primary">click</button>
+        <button class="btn btn-primary">更新</button>
+    </form>
+    <form method="post" action="/user/{{.user.ID}}/delete">
+        <button class="del btn btn-primary">削除</button>
     </form>
 
 
