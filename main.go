@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -9,10 +10,19 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type Body struct {
+type Wiki struct {
+	gorm.Model
+	Body     Body
+	Title    string
+	ScreenID int
 }
 
-type Wiki struct {
+type Body struct {
+	gorm.Model
+	Text   string
+	Author string
+	Url    string
+	WikiID int `gorm:"index"`
 }
 
 type User struct {
@@ -31,7 +41,7 @@ func db_init() {
 	}
 	defer db.Close()
 
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Wiki{}, &Body{}, &User{})
 }
 
 /*
@@ -113,6 +123,96 @@ func delete_user(id int) {
 
 }
 
+/*
+ * Wiki一覧取得
+ */
+func get_all_wiki() []Wiki {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(get_all_wiki)")
+	}
+	defer db.Close()
+
+	var wiki []Wiki
+	db.Find(&wiki)
+	return wiki
+
+}
+
+/*
+ * Wiki詳細取得
+ */
+func get_wiki_detail(id int) Wiki {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(get_wiki_detail)")
+	}
+	defer db.Close()
+
+	var wiki Wiki
+	var body Body
+
+	db.Debug().Find(&wiki, id).Related(&body)
+
+	// 上記のSQLだと、wiki.Bodyに入らないので
+	// 代入する
+	wiki.Body = body
+
+	log.Println(wiki.Body)
+	return wiki
+}
+
+/*
+ * Wikiの新規作成
+ */
+func create_wiki(wiki Wiki) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(create_wiki)")
+	}
+
+	defer db.Close()
+	db.Debug().Create(&wiki)
+}
+
+/*
+ * Wikiの更新
+ */
+func update_wiki(id int, nWiki Wiki) {
+
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(update_wiki)")
+	}
+	defer db.Close()
+
+	var wiki Wiki
+	db.First(&wiki, id)
+	wiki.Title = nWiki.Title
+	wiki.ScreenID = nWiki.ScreenID
+	wiki.Body = nWiki.Body
+	db.Debug().Save(&wiki)
+
+}
+
+/*
+ * Wikiの削除
+ */
+func delete_wiki(id int) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(update_wiki)")
+	}
+	defer db.Close()
+
+	var wiki Wiki
+	db.First(&wiki, id)
+	db.Delete(&wiki)
+}
+
+/*
+ * Main
+ */
 func main() {
 	r := gin.Default()
 
@@ -180,6 +280,92 @@ func main() {
 
 		delete_user(id)
 		c.Redirect(302, "/user")
+	})
+
+	// Wiki全件取得
+	r.GET("/wiki", func(c *gin.Context) {
+		wiki := get_all_wiki()
+
+		c.HTML(200, "index.tmpl", gin.H{
+			"wiki": wiki,
+		})
+	})
+
+	// Wiki内容取得
+	r.GET("/wiki/:id", func(c *gin.Context) {
+		num := c.Param("id")
+		id, err := strconv.Atoi(num)
+		if err != nil {
+			panic(err)
+		}
+
+		wiki := get_wiki_detail(id)
+
+		c.HTML(200, "detail.tmpl", gin.H{
+			"wiki": wiki,
+		})
+	})
+
+	// Wiki新規作成
+	r.GET("/new_wiki", func(c *gin.Context) {
+		c.HTML(200, "new.tmpl", gin.H{})
+	})
+
+	// Wiki作成
+	r.POST("/create_wiki", func(c *gin.Context) {
+		title := c.PostForm("title")
+		num := c.PostForm("screenId")
+		author := c.PostForm("author")
+		text := c.PostForm("text")
+		url := c.PostForm("url")
+
+		screenId, err := strconv.Atoi(num)
+		if err != nil {
+			panic(err)
+		}
+
+		body := Body{Text: text, Author: author, Url: url}
+		wiki := Wiki{Title: title, ScreenID: screenId, Body: body}
+		create_wiki(wiki)
+		c.Redirect(302, "/wiki")
+
+	})
+
+	// Wikiの更新
+	r.POST("/update_wiki/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+
+		title := c.PostForm("title")
+		num := c.PostForm("screenId")
+		author := c.PostForm("author")
+		text := c.PostForm("text")
+		url := c.PostForm("url")
+
+		screenId, err := strconv.Atoi(num)
+		if err != nil {
+			panic(err)
+		}
+		nBody := Body{Text: text, Author: author, Url: url}
+		nWiki := Wiki{Title: title, ScreenID: screenId, Body: nBody}
+
+		update_wiki(id, nWiki)
+		c.Redirect(302, "/wiki")
+
+	})
+
+	r.POST("/delete_wiki/:id", func(c *gin.Context) {
+		n := c.Param("id")
+		id, err := strconv.Atoi(n)
+		if err != nil {
+			panic(err)
+		}
+		delete_wiki(id)
+		c.Redirect(302, "/wiki")
+
 	})
 
 	r.Run()
