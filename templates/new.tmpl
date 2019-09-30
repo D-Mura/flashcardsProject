@@ -8,14 +8,25 @@
     <div class="header">
         <h1>FlashCards APP</h1>
     </div>
+    <form method="post" action="/create_wiki">
+        <p>用語：<input type="text" name="title" size="30" placeholder="入力してください" ></p>
+        <p>意味：<input type="text" name="text" ></p>
+        <p>作成者：<input type="text" name="author" ></p>
+        <p>参考：<input type="url" name="url" ></p>
+        <p>出現画面：
+            <select name="screenId">
+                <option value="1">A ページ</option>
+                <option value="2">B ページ</option>
+                <option value="3">C ページ</option>
+            </select>
+        </p>
 
-    <a href="new_wiki">新規WIKI作成</a>
-    <hr>
-    
-    {{ range .wiki }}
-        <li>{{.Title}}/{{.ScreenID}}</li>
-        <a href="/wiki/{{.ID}}">詳細</a>
-    {{ end }}
+        <button class="con btn btn-primary">作成</button>
+    </form>
+    <form method="post" action="/delete_wiki/{{.wiki.ID}}">
+        <button class="del btn btn-primary">削除</button>
+    </form>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
     <script src="/assets/js/index.js"></script>
