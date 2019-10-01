@@ -6,9 +6,9 @@
 </head>
 <body>
     <div class="header">
-        <h1>FlashCards APP</h1>
+        <h1><a href="/wiki">FlashCards APP</a></h1>
     </div>
-    <form method="post" action="/create_wiki">
+    <form method="post" enctype="multipart/form-data" action="/create_wiki">
         <p>用語：<input type="text" name="title" size="30" placeholder="入力してください" ></p>
         <p>意味：<input type="text" name="text" ></p>
         <p>作成者：<input type="text" name="author" ></p>
@@ -20,11 +20,8 @@
                 <option value="3">C ページ</option>
             </select>
         </p>
-
+        <p>画像ファイル：<input type="file" name="file"></p>
         <button class="con btn btn-primary">作成</button>
-    </form>
-    <form method="post" action="/delete_wiki/{{.wiki.ID}}">
-        <button class="del btn btn-primary">削除</button>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
