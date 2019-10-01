@@ -6,11 +6,12 @@
 </head>
 <body>
     <div class="header">
-        <h1>FlashCards APP</h1>
+        <h1><a href="/wiki">FlashCards APP</a></h1>
     </div>
 
     <hr>
-    
+    <img src="/assets/image/{{.wiki.PictureName}}" width="128" height="128">
+    <hr>
     <form method="post" action="/update_wiki/{{.wiki.ID}}">
         <p>用語：<input type="text" name="title" size="30" placeholder="入力してください" value="{{.wiki.Title}}"></p>
         <p>意味：<input type="text" name="text" value="{{.wiki.Body.Text}}"></p>

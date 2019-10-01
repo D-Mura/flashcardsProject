@@ -4,17 +4,20 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
+	imageupload "github.com/olahol/go-imageupload"
 )
 
 type Wiki struct {
 	gorm.Model
-	Body     Body
-	Title    string
-	ScreenID int
+	Body        Body
+	Title       string
+	PictureName string
+	ScreenID    int
 }
 
 type Body struct {
@@ -324,8 +327,29 @@ func main() {
 			panic(err)
 		}
 
+		// ファイルのアップロード処理
+		img, err := imageupload.Process(c.Request, "file")
+		if err != nil {
+			panic(err)
+		}
+		log.Println(img.Filename)
+
+		// 300x300にリサイズ
+		thumb, err := imageupload.ThumbnailPNG(img, 300, 300)
+		if err != nil {
+			panic(err)
+		}
+
+		// ファイル名のプレフィックスを作成
+		t := time.Now()
+		layout := "2006_01_02_15_04_05"
+		pictName := t.Format(layout) + "_" + img.Filename
+
+		// ファイルの保存
+		thumb.Save("./assets/image/" + pictName)
+
 		body := Body{Text: text, Author: author, Url: url}
-		wiki := Wiki{Title: title, ScreenID: screenId, Body: body}
+		wiki := Wiki{Title: title, PictureName: pictName, ScreenID: screenId, Body: body}
 		create_wiki(wiki)
 		c.Redirect(302, "/wiki")
 
@@ -367,6 +391,25 @@ func main() {
 		c.Redirect(302, "/wiki")
 
 	})
+
+	/*
+		 * ファイルアップロードのテスト
+		 *
+		r.POST("/upload", func(c *gin.Context) {
+			img, err := imageupload.Process(c.Request, "file")
+			if err != nil {
+				panic(err)
+			}
+			log.Println(img.Filename)
+			thumb, err := imageupload.ThumbnailPNG(img, 300, 300)
+			if err != nil {
+				panic(err)
+			}
+			thumb.Save("./assets/image/" + img.Filename)
+			c.Redirect(302, "/wiki")
+		})
+		 *
+	*/
 
 	r.Run()
 }
