@@ -356,6 +356,7 @@ func main() {
 	})
 
 	// Wikiの更新
+	// 画像の更新は非対応
 	r.POST("/update_wiki/:id", func(c *gin.Context) {
 		n := c.Param("id")
 		id, err := strconv.Atoi(n)
