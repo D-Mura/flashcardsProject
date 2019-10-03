@@ -12,9 +12,12 @@ import (
 
 // Wiki全件取得
 func GetAllWiki(c *gin.Context) {
-	wiki := model.GetAllWiki()
+	aWiki, bWiki, cWiki := model.GetAllWiki()
+
 	c.HTML(200, "index.tmpl", gin.H{
-		"wiki": wiki,
+		"aWiki": aWiki,
+		"bWiki": bWiki,
+		"cWiki": cWiki,
 	})
 }
 

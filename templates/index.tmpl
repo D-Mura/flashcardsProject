@@ -12,7 +12,24 @@
     <a href="new_wiki">新規WIKI作成</a>
     <hr>
     
-    {{ range .wiki }}
+    <p>Aページの用語</a>
+    {{ range .aWiki }}
+        <li>{{.Title}}/{{.ScreenID}}</li>
+        <img src="/assets/image/{{.PictureName}}" width="128" height="128">
+        <a href="/wiki/{{.ID}}">詳細</a>
+    {{ end }}
+    <hr>
+
+    <p>Bページの用語</p>
+    {{ range .bWiki }}
+        <li>{{.Title}}/{{.ScreenID}}</li>
+        <img src="/assets/image/{{.PictureName}}" width="128" height="128">
+        <a href="/wiki/{{.ID}}">詳細</a>
+    {{ end }}
+    <hr>
+
+    <p>Cページの用語</p>
+    {{ range .cWiki }}
         <li>{{.Title}}/{{.ScreenID}}</li>
         <img src="/assets/image/{{.PictureName}}" width="128" height="128">
         <a href="/wiki/{{.ID}}">詳細</a>

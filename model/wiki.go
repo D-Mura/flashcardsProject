@@ -9,7 +9,7 @@ import (
 /*
  * Wiki一覧取得
  */
-func GetAllWiki() []Wiki {
+func GetAllWiki() ([]Wiki, []Wiki, []Wiki) {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
 		panic("failed to connect database(GetAllWiki())")
@@ -18,7 +18,25 @@ func GetAllWiki() []Wiki {
 
 	var wiki []Wiki
 	db.Find(&wiki)
-	return wiki
+
+	var aWiki, bWiki, cWiki []Wiki
+
+	/*
+	 * ToDo: switch文に変更
+	 */
+
+	// 画面IDに応じて振り分ける
+	for _, w := range wiki {
+		if w.ScreenID == 1 {
+			aWiki = append(aWiki, w)
+		} else if w.ScreenID == 2 {
+			bWiki = append(bWiki, w)
+		} else if w.ScreenID == 3 {
+			cWiki = append(cWiki, w)
+		}
+	}
+
+	return aWiki, bWiki, cWiki
 
 }
 
@@ -40,7 +58,6 @@ func GetWikiDetail(id int) Wiki {
 	// 上記のSQLだと、wiki.Bodyに入らないので
 	// 代入する
 	wiki.Body = body
-
 	log.Println(wiki.Body)
 	return wiki
 }
