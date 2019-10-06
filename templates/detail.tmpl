@@ -9,38 +9,47 @@
         <h1><a href="/wiki">FlashCards APP</a></h1>
     </div>
 
-    <hr>
-    <img src="/assets/image/{{.wiki.PictureName}}" width="128" height="128">
-    <hr>
-    <form method="post" action="/update_wiki/{{.wiki.ID}}">
-        <p>用語：<input type="text" name="title" size="30" placeholder="入力してください" value="{{.wiki.Title}}"></p>
-        <p>意味：<input type="text" name="text" value="{{.wiki.Body.Text}}"></p>
-        <p>作成者：<input type="text" name="author" value="{{.wiki.Body.Author}}"></p>
-        <p>参考：<input type="url" name="url" value="{{.wiki.Body.Url}}"></p>
-        <p>出現画面：
-            <select name="screenId">
+    <div class="card mb-3" style="max-width: 75%">
+        <div class="row no-gutters">
+            <div class="col-md-5">
+                <img src="/assets/image/{{.wiki.PictureName}}" class="card-img">
+            </div>
+            <div class="col-md-7" style=" background-color: #F5FFFA;">
+                <div class="card-body">
+                    <p class="card-text">
+                        <form method="post" action="/update_wiki/{{.wiki.ID}}">
+                            <p class="card-title">用語：<input type="text" name="title" size="30" placeholder="入力してください" value="{{.wiki.Title}}"></p>
+                            <p>意味：<input type="text" name="text" size="30" value="{{.wiki.Body.Text}}"></p>
+                            <p>作成者：<input type="text" name="author" size="28" value="{{.wiki.Body.Author}}"></p>
+                            <p>参考：<input type="url" name="url" size="30" value="{{.wiki.Body.Url}}"></p>
+                            <p>出現画面：
+                                <select name="screenId">
+                                    {{if eq .wiki.ScreenID 1}}
+                                        <option value="1" selected>A ページ</option>
+                                        <option value="2">B ページ</option>
+                                        <option value="3">C ページ</option>
+                                    {{else if eq .wiki.ScreenID 2}}
+                                        <option value="1">A ページ</option>
+                                        <option value="2" selected>B ページ</option>
+                                        <option value="3">C ページ</option>
+                                    {{else if eq .wiki.ScreenID 3}}
+                                        <option value="1">A ページ</option>
+                                        <option value="2">B ページ</option>
+                                        <option value="3" selected>C ページ</option>
+                                    {{end}}                                   
+                                </select>
+                            </p>
+                            <button class="con btn btn-primary">更新</button>
+                        </form> 
+                        <form method="post" action="/delete_wiki/{{.wiki.ID}}">
+                            <button class="del btn btn-primary">削除</button>
+                        </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                {{if eq .wiki.ScreenID 1}}
-                    <option value="1" selected>A ページ</option>
-                    <option value="2">B ページ</option>
-                    <option value="3">C ページ</option>
-                {{else if eq .wiki.ScreenID 2}}
-                     <option value="1">A ページ</option>
-                    <option value="2" selected>B ページ</option>
-                    <option value="3">C ページ</option>
-                {{else if eq .wiki.ScreenID 3}}
-                    <option value="1">A ページ</option>
-                    <option value="2">B ページ</option>
-                    <option value="3" selected>C ページ</option>
-                {{end}}                                   
-            </select>
-        </p>
-
-        <button class="con btn btn-primary">更新</button>
-    </form>    
-    <form method="post" action="/delete_wiki/{{.wiki.ID}}">
-        <button class="del btn btn-primary">削除</button>
-    </form>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
     <script src="/assets/js/index.js"></script>

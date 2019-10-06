@@ -19,7 +19,7 @@ func GetAllWiki() ([]Wiki, []Wiki, []Wiki) {
 	var wiki []Wiki
 	db.Find(&wiki)
 
-	var aWiki, bWiki, cWiki []Wiki
+	var wikiForScreenA, wikiForScreenB, wikiForScreenC []Wiki
 
 	/*
 	 * ToDo: switch文に変更
@@ -28,15 +28,15 @@ func GetAllWiki() ([]Wiki, []Wiki, []Wiki) {
 	// 画面IDに応じて振り分ける
 	for _, w := range wiki {
 		if w.ScreenID == 1 {
-			aWiki = append(aWiki, w)
+			wikiForScreenA = append(wikiForScreenA, w)
 		} else if w.ScreenID == 2 {
-			bWiki = append(bWiki, w)
+			wikiForScreenB = append(wikiForScreenB, w)
 		} else if w.ScreenID == 3 {
-			cWiki = append(cWiki, w)
+			wikiForScreenC = append(wikiForScreenC, w)
 		}
 	}
 
-	return aWiki, bWiki, cWiki
+	return wikiForScreenA, wikiForScreenB, wikiForScreenC
 
 }
 

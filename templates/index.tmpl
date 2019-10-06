@@ -12,28 +12,58 @@
     <a href="new_wiki">新規WIKI作成</a>
     <hr>
     
-    <p>Aページの用語</a>
-    {{ range .aWiki }}
-        <li>{{.Title}}/{{.ScreenID}}</li>
-        <img src="/assets/image/{{.PictureName}}" width="128" height="128">
-        <a href="/wiki/{{.ID}}">詳細</a>
-    {{ end }}
-    <hr>
+    <h5>Aページの用語</h5>
+    <div class="row">
+        {{ range .wikiForScreenA }}
+            <div class="col-sm-2">
 
-    <p>Bページの用語</p>
-    {{ range .bWiki }}
-        <li>{{.Title}}/{{.ScreenID}}</li>
-        <img src="/assets/image/{{.PictureName}}" width="128" height="128">
-        <a href="/wiki/{{.ID}}">詳細</a>
-    {{ end }}
-    <hr>
+                <div class="card" style="width: 12rem;  margin-bottom: 2em;">
+                    <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
+                    <div class="card-body" style="background-color: #F5FFFA;">
+                        <h5 class="card-title">{{.Title}}</h5>
+                        <p class="card-text"><small class="text-muted">Last Updated at: {{.UpdatedAt}}</small></p>
+                        <a href="/wiki/{{.ID}}" class="btn btn-primary">詳細</a>
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
 
-    <p>Cページの用語</p>
-    {{ range .cWiki }}
-        <li>{{.Title}}/{{.ScreenID}}</li>
-        <img src="/assets/image/{{.PictureName}}" width="128" height="128">
-        <a href="/wiki/{{.ID}}">詳細</a>
-    {{ end }}
+    <hr>
+    <h5>Bページの用語</h5>
+    <div class="row">
+        {{ range .wikiForScreenB }}
+            <div class="col-sm-2">
+
+                <div class="card" style="width: 12rem;">
+                    <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
+                    <div class="card-body" style="background-color: #F5FFFA;">
+                        <h5 class="card-title">{{.Title}}</h5>
+                        <p class="card-text"><small class="text-muted">Last Updated at: {{.UpdatedAt}}</small></p>
+                        <a href="/wiki/{{.ID}}" class="btn btn-primary">詳細</a>
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+
+    <hr>
+    <h5>Cページの用語</h5>
+    <div class="row">
+        {{ range .wikiForScreenC }}
+            <div class="col-sm-2">
+
+                <div class="card" style="width: 12rem;">
+                    <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
+                    <div class="card-body" style="background-color: #F5FFFA;">
+                        <h5 class="card-title">{{.Title}}</h5>
+                        <p class="card-text"><small class="text-muted">Last Updated at: {{.UpdatedAt}}</small></p>
+                        <a href="/wiki/{{.ID}}" class="btn btn-primary">詳細</a>
+                    </div>
+                </div>
+            </div>
+        {{ end }}
+    </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
     <script src="/assets/js/index.js"></script>
