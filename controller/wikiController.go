@@ -12,12 +12,12 @@ import (
 
 // Wiki全件取得
 func GetAllWiki(c *gin.Context) {
-	aWiki, bWiki, cWiki := model.GetAllWiki()
+	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki()
 
 	c.HTML(200, "index.tmpl", gin.H{
-		"aWiki": aWiki,
-		"bWiki": bWiki,
-		"cWiki": cWiki,
+		"wikiForScreenA": wikiForScreenA,
+		"wikiForScreenB": wikiForScreenB,
+		"wikiForScreenC": wikiForScreenC,
 	})
 }
 
@@ -80,6 +80,9 @@ func CreateWiki(c *gin.Context) {
 	}
 
 	// ファイル名のプレフィックスを作成
+	/*
+	 * 後ほど共通化（日付処理）
+	 */
 	t := time.Now()
 	layout := "2006_01_02_15_04_05"
 	pictName := t.Format(layout) + "_" + img.Filename
