@@ -6,10 +6,18 @@
 </head>
 <body>
     <div class="header">
-        <h1>FlashCards APP</h1>
+        <h1><a href="/wiki">FlashCards APP</a></h1>
     </div>
 
-    <a href="new_wiki">新規WIKI作成</a>
+    <a href="new_wiki">新しい用語の作成</a>
+    <br>
+    <div class="text-right">
+        <form method="get" action="/sort_wiki">
+            <button class="btn btn-secondary btn-sm" name="sort-btn" value="title">用語名でソート</button>
+            <button class="btn btn-secondary btn-sm" name="sort-btn" value="date">更新日でソート</button> 
+        </form>
+    </div>
+
     <hr>
     
     <h5>Aページの用語</h5>
@@ -22,7 +30,7 @@
                     <div class="card-body" style="background-color: #F5FFFA;">
                         <h5 class="card-title">{{.Title}}</h5>
                         <p class="card-text"><small class="text-muted">Last Updated at: {{.UpdatedAt}}</small></p>
-                        <a href="/wiki/{{.ID}}" class="btn btn-primary">詳細</a>
+                        <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
                     </div>
                 </div>
             </div>
@@ -40,7 +48,7 @@
                     <div class="card-body" style="background-color: #F5FFFA;">
                         <h5 class="card-title">{{.Title}}</h5>
                         <p class="card-text"><small class="text-muted">Last Updated at: {{.UpdatedAt}}</small></p>
-                        <a href="/wiki/{{.ID}}" class="btn btn-primary">詳細</a>
+                        <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
                     </div>
                 </div>
             </div>
@@ -58,7 +66,7 @@
                     <div class="card-body" style="background-color: #F5FFFA;">
                         <h5 class="card-title">{{.Title}}</h5>
                         <p class="card-text"><small class="text-muted">Last Updated at: {{.UpdatedAt}}</small></p>
-                        <a href="/wiki/{{.ID}}" class="btn btn-primary">詳細</a>
+                        <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
                     </div>
                 </div>
             </div>

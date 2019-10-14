@@ -55,6 +55,9 @@ func main() {
 	// Wiki全件取得
 	r.GET("/wiki", controller.GetAllWiki)
 
+	// Wikiのソート
+	r.GET("/sort_wiki", controller.SortAllWiki)
+
 	// Wiki内容取得
 	r.GET("/wiki/:id", controller.GetWikiDetail)
 

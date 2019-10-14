@@ -12,7 +12,20 @@ import (
 
 // Wiki全件取得
 func GetAllWiki(c *gin.Context) {
-	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki()
+	bySorted := "title"
+	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki(bySorted)
+
+	c.HTML(200, "index.tmpl", gin.H{
+		"wikiForScreenA": wikiForScreenA,
+		"wikiForScreenB": wikiForScreenB,
+		"wikiForScreenC": wikiForScreenC,
+	})
+}
+
+// Wikiのソート
+func SortAllWiki(c *gin.Context) {
+	bySorted := c.Query("sort-btn")
+	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki(bySorted)
 
 	c.HTML(200, "index.tmpl", gin.H{
 		"wikiForScreenA": wikiForScreenA,

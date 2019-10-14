@@ -9,7 +9,7 @@ import (
 /*
  * Wiki一覧取得
  */
-func GetAllWiki() ([]Wiki, []Wiki, []Wiki) {
+func GetAllWiki(bySorted string) ([]Wiki, []Wiki, []Wiki) {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
 		panic("failed to connect database(GetAllWiki())")
@@ -17,7 +17,12 @@ func GetAllWiki() ([]Wiki, []Wiki, []Wiki) {
 	defer db.Close()
 
 	var wiki []Wiki
-	db.Find(&wiki)
+	if bySorted == "date" {
+		db.Debug().Order("updated_at").Find(&wiki)
+	} else {
+		db.Debug().Order("title").Find(&wiki)
+
+	}
 
 	var wikiForScreenA, wikiForScreenB, wikiForScreenC []Wiki
 
