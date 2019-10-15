@@ -114,3 +114,35 @@ func UpdateWiki(id int, nWiki Wiki) {
 	db.Debug().Save(&wiki)
 
 }
+
+/*
+ * Wikiの検索
+ */
+func SearchWiki(word string) ([]Wiki, []Wiki, []Wiki) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(serach_wiki)")
+	}
+	var wiki []Wiki
+	db.Debug().Where("title = ?", word).Find(&wiki)
+
+	var wikiForScreenA, wikiForScreenB, wikiForScreenC []Wiki
+
+	/*
+	 * ToDo: switch文に変更
+	 */
+
+	// 画面IDに応じて振り分ける
+	for _, w := range wiki {
+		if w.ScreenID == 1 {
+			wikiForScreenA = append(wikiForScreenA, w)
+		} else if w.ScreenID == 2 {
+			wikiForScreenB = append(wikiForScreenB, w)
+		} else if w.ScreenID == 3 {
+			wikiForScreenC = append(wikiForScreenC, w)
+		}
+	}
+
+	return wikiForScreenA, wikiForScreenB, wikiForScreenC
+
+}

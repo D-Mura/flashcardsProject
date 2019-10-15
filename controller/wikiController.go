@@ -15,10 +15,13 @@ func GetAllWiki(c *gin.Context) {
 	bySorted := "title"
 	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki(bySorted)
 
+	isSearched := false
+
 	c.HTML(200, "index.tmpl", gin.H{
 		"wikiForScreenA": wikiForScreenA,
 		"wikiForScreenB": wikiForScreenB,
 		"wikiForScreenC": wikiForScreenC,
+		"isSearched":     isSearched,
 	})
 }
 
@@ -27,10 +30,12 @@ func SortAllWiki(c *gin.Context) {
 	bySorted := c.Query("sort-btn")
 	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki(bySorted)
 
+	isSearched := false
 	c.HTML(200, "index.tmpl", gin.H{
 		"wikiForScreenA": wikiForScreenA,
 		"wikiForScreenB": wikiForScreenB,
 		"wikiForScreenC": wikiForScreenC,
+		"isSearched":     isSearched,
 	})
 }
 
@@ -134,6 +139,21 @@ func UpdateWiki(c *gin.Context) {
 
 	model.UpdateWiki(id, nWiki)
 	c.Redirect(302, "/wiki")
+
+}
+
+// SearchWiki
+func SearchWiki(c *gin.Context) {
+	word := c.PostForm("word")
+	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.SearchWiki(word)
+
+	isSearched := true
+	c.HTML(200, "index.tmpl", gin.H{
+		"wikiForScreenA": wikiForScreenA,
+		"wikiForScreenB": wikiForScreenB,
+		"wikiForScreenC": wikiForScreenC,
+		"isSearched":     isSearched,
+	})
 
 }
 

@@ -14,7 +14,7 @@
 
     <form method="post" action="/search_wiki">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="検索ワード" name="word" required>
+        <input type="text" class="form-control" placeholder="検索ワード" name="word">
         <span class="input-group-btn">
             <button class="btn btn-primary btn-default">検索実行</button>
         </span>
@@ -22,14 +22,12 @@
     </form>
 
     <br>
-    {{ if eq .isSearched false }}
     <div class="text-right">
         <form method="get" action="/sort_wiki">
             <button class="btn btn-secondary btn-sm" name="sort-btn" value="title">用語名でソート</button>
             <button class="btn btn-secondary btn-sm" name="sort-btn" value="date">更新日でソート</button> 
         </form>
     </div>
-    {{ end }}
 
     <hr>
     
