@@ -74,6 +74,9 @@ func main() {
 	// Wikiの削除
 	r.POST("/delete_wiki/:id", controller.DeleteWiki)
 
+	// Wikiの検索
+	r.POST("/search_wiki", controller.SearchWiki)
+
 	/*
 		// FileUpload Test
 		r.POST("/upload", controller.Upload)
