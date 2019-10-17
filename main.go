@@ -77,6 +77,9 @@ func main() {
 	// Wikiの検索
 	r.POST("/search_wiki", controller.SearchWiki)
 
+	// Wiki画像の更新
+	r.POST("/update_wiki_picture", controller.UpdateWikiPicture)
+
 	/*
 		// FileUpload Test
 		r.POST("/upload", controller.Upload)
