@@ -84,24 +84,24 @@ func CreateWiki(c *gin.Context) {
 		panic(err)
 	}
 
+	pictName := "default.png"
 	// ファイルのアップロード処理
 	img, err := imageupload.Process(c.Request, "file")
-	if err != nil {
-		panic(err)
+	if err == nil {
+		log.Println(img.Filename)
+
+		// 300x300にリサイズ
+		thumb, err := imageupload.ThumbnailPNG(img, 300, 300)
+		if err != nil {
+			panic(err)
+		}
+
+		// ファイル名のプレフィックスを作成
+		pictName = helper.MakeFileNamePrefix() + img.Filename
+
+		// ファイルの保存
+		thumb.Save("./assets/image/" + pictName)
 	}
-	log.Println(img.Filename)
-
-	// 300x300にリサイズ
-	thumb, err := imageupload.ThumbnailPNG(img, 300, 300)
-	if err != nil {
-		panic(err)
-	}
-
-	// ファイル名のプレフィックスを作成
-	pictName := helper.MakeFileNamePrefix() + img.Filename
-
-	// ファイルの保存
-	thumb.Save("./assets/image/" + pictName)
 
 	body := model.Body{Text: text, Author: author, Url: url}
 	wiki := model.Wiki{Title: title, PictureName: pictName, ScreenID: screenId, Body: body}
@@ -111,7 +111,6 @@ func CreateWiki(c *gin.Context) {
 }
 
 // Wikiの更新
-// 画像の更新は非対応
 func UpdateWiki(c *gin.Context) {
 	n := c.Param("id")
 	id, err := strconv.Atoi(n)

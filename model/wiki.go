@@ -39,6 +39,12 @@ func GetAllWiki(bySorted string) ([]Wiki, []Wiki, []Wiki) {
 		} else if w.ScreenID == 3 {
 			wikiForScreenC = append(wikiForScreenC, w)
 		}
+
+		if w.PictureName == "" {
+
+			w.PictureName = "default.png"
+		}
+
 	}
 
 	return wikiForScreenA, wikiForScreenB, wikiForScreenC
