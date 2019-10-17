@@ -146,3 +146,19 @@ func SearchWiki(word string) ([]Wiki, []Wiki, []Wiki) {
 	return wikiForScreenA, wikiForScreenB, wikiForScreenC
 
 }
+
+/*
+ * Wiki画像の更新
+ */
+func UpdateWikiPicture(id int, pictName string) {
+	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	if err != nil {
+		panic("failed to connect database(update_wiki_picture)")
+	}
+	defer db.Close()
+
+	var wiki Wiki
+	db.First(&wiki, id)
+	wiki.PictureName = pictName
+	db.Debug().Save(&wiki)
+}

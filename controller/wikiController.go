@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"flashcardsProject/helper"
 	"flashcardsProject/model"
 	"log"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	imageupload "github.com/olahol/go-imageupload"
@@ -98,12 +98,7 @@ func CreateWiki(c *gin.Context) {
 	}
 
 	// ファイル名のプレフィックスを作成
-	/*
-	 * 後ほど共通化（日付処理）
-	 */
-	t := time.Now()
-	layout := "2006_01_02_15_04_05"
-	pictName := t.Format(layout) + "_" + img.Filename
+	pictName := helper.MakeFileNamePrefix() + img.Filename
 
 	// ファイルの保存
 	thumb.Save("./assets/image/" + pictName)
@@ -154,6 +149,36 @@ func SearchWiki(c *gin.Context) {
 		"wikiForScreenC": wikiForScreenC,
 		"isSearched":     isSearched,
 	})
+
+}
+
+// UpdateWikiPicture
+func UpdateWikiPicture(c *gin.Context) {
+	n := c.PostForm("id")
+	id, err := strconv.Atoi(n)
+	if err != nil {
+		panic(err)
+	}
+
+	// ファイルのアップロード処理
+	img, err := imageupload.Process(c.Request, "file")
+	if err != nil {
+		panic(err)
+	}
+	// 300x300にリサイズ
+	thumb, err := imageupload.ThumbnailPNG(img, 300, 300)
+	if err != nil {
+		panic(err)
+	}
+
+	// ファイル名のプレフィックスを作成
+	pictName := helper.MakeFileNamePrefix() + img.Filename
+
+	// ファイルの保存
+	thumb.Save("./assets/image/" + pictName)
+
+	model.UpdateWikiPicture(id, pictName)
+	c.Redirect(302, "/wiki")
 
 }
 
