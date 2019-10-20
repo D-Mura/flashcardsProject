@@ -14,9 +14,8 @@
         <div class="row no-gutters">
             <div class="col-md-5">
                 <img src="/assets/image/{{.wiki.PictureName}}" class="card-img">
-
                 <form method="post" enctype="multipart/form-data" action="/update_wiki_picture">
-               
+                    <br>
                     <p><input type="file" name="file"></p>
                     <p><button class="con btn btn-primary" name="id" value="{{.wiki.ID}}">画像更新</button></p>
                 </form>
@@ -26,7 +25,9 @@
                     <p class="card-text">
                         <form method="post" action="/update_wiki/{{.wiki.ID}}">
                             <p class="card-title">用語：<input type="text" name="title" size="30" placeholder="入力してください" value="{{.wiki.Title}}"></p>
-                            <p>意味：<input type="text" name="text" size="30" value="{{.wiki.Body.Text}}"></p>
+                            <p>意味：<br>
+                                <textarea name="text" rows="3" style="width: 300px;">{{.wiki.Body.Text}}</textarea>
+                            </p>
                             <p>作成者：<input type="text" name="author" size="28" value="{{.wiki.Body.Author}}"></p>
                             <p>参考：<input type="url" name="url" size="30" value="{{.wiki.Body.Url}}"></p>
                             <p>出現画面：
