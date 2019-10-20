@@ -3,8 +3,3 @@
 !/assets/image/default.png
 !/assets/image/logo.png
 
-# user関連
-/controller/userController.go
-/model/user.go
-/templates/userInfo.tmpl
-/templates/userInfoDetail.tmpl
