@@ -139,7 +139,9 @@ func UpdateWiki(c *gin.Context) {
 // SearchWiki
 func SearchWiki(c *gin.Context) {
 	word := c.PostForm("word")
-	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.SearchWiki(word)
+	option := c.PostForm("search-option")
+	log.Println(option)
+	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.SearchWiki(word, option)
 
 	isSearched := true
 	c.HTML(200, "index.tmpl", gin.H{
