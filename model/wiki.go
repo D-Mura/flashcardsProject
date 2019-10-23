@@ -124,13 +124,23 @@ func UpdateWiki(id int, nWiki Wiki) {
 /*
  * Wikiの検索
  */
-func SearchWiki(word string) ([]Wiki, []Wiki, []Wiki) {
+func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
 	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
 	if err != nil {
 		panic("failed to connect database(serach_wiki)")
 	}
 	var wiki []Wiki
-	db.Debug().Where("title = ?", word).Find(&wiki)
+
+	// 全文検索: full-search
+	// 部分検索: partial-search
+	if option == "full-search" {
+		db.Debug().Where("title = ?", word).Find(&wiki)
+	} else if option == "partial-search" {
+		// SQLite3の場合、GLOBを用いる
+		// PostgresやMySQLでは異なるので注意
+		// ex-postgres)  "title ~ ?", "^"+word+"^"のようになると思われる
+		db.Debug().Where("title GLOB ?", "*"+word+"*").Find(&wiki)
+	}
 
 	var wikiForScreenA, wikiForScreenB, wikiForScreenC []Wiki
 
