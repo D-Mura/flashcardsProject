@@ -7,20 +7,20 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 /*
  * DB初期化処理
  */
 func db_init() {
-	db, err := gorm.Open("sqlite3", "testGin.sqlite3")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
 	if err != nil {
 		fmt.Println("failed to connect database(init)")
 	}
 	defer db.Close()
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Wiki{}, &model.Body{}, &model.User{})
 
-	db.AutoMigrate(&model.Wiki{}, &model.Body{}, &model.User{})
 }
 
 /*
