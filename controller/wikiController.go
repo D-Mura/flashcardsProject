@@ -6,6 +6,8 @@ import (
 	"log"
 	"strconv"
 
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+
 	"github.com/gin-gonic/gin"
 	imageupload "github.com/olahol/go-imageupload"
 )
