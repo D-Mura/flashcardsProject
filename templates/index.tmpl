@@ -5,94 +5,117 @@
     <link rel="stylesheet" href="/assets/css/index.css">
 </head>
 <body>
+<div class="container">
     <div class="header">
         <h1><a href="/wiki"><img src="/assets/image/logo.png" width="256" height="128" alt="logo"></a></h1>
     </div>
 
-    <a href="new_wiki">新しい用語の作成</a>
-    <br>
+    <div class="row">
+        <div class="col-2" style="background-color: #F5FFFA;">
+        <div  style="position: fixed;">
+            <a class="navbar-brand" href="#">サイドバー</a>
+            <ul>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#A">Aページ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#B">Bページ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#C">Cページ</a>
+                </li>            
+            </ul>
+        </div>
+        </div>
+        <div class="col-10">
 
-    <form method="post" action="/search_wiki">
-    <div class="input-group">
-        <select name="search-option">
-            <option value="full-search">全文検索</option>
-            <option value="partial-search">部分検索</option>
-        </select>
-        <input type="text" class="form-control" placeholder="検索ワード" name="word" required>
-        <span class="input-group-btn">
-            <button class="btn btn-primary btn-default">検索実行</button>
-        </span>
+        <form method="post" action="/search_wiki">
+        <div class="input-group">
+            <select name="search-option">
+                <option value="full-search">全文検索</option>
+                <option value="partial-search">部分検索</option>
+            </select>
+            <input type="text" class="form-control" placeholder="検索ワード" name="word" required>
+            <span class="input-group-btn">
+                <button class="btn btn-primary btn-default">検索実行</button>
+            </span>
 
-    </div>
-    </form>
-
-    <br>
-    {{ if eq .isSearched false }}
-    <div class="text-right">
-        <form method="get" action="/sort_wiki">
-            <button class="btn btn-secondary btn-sm" name="sort-btn" value="title">用語名でソート</button>
-            <button class="btn btn-secondary btn-sm" name="sort-btn" value="date">更新日でソート</button> 
+        </div>
         </form>
-    </div>
-    {{ end }}
 
-    <hr>
-    
-    <h5>Aページの用語</h5>
-    <div class="row">
-        {{ range .wikiForScreenA }}
-            <div class="col-sm-2">
+        {{ if eq .isSearched false }}
+        <div class="text-right">
+            <form method="get" action="/sort_wiki">
+                <button class="btn btn-secondary btn-sm" name="sort-btn" value="title">用語名でソート</button>
+                <button class="btn btn-secondary btn-sm" name="sort-btn" value="date">更新日でソート</button> 
+            </form>
+        </div>
+        {{ end }}
 
-                <div class="card" style="width: 12rem;  margin-bottom: 2em;">
+        <a href="new_wiki">新しい用語の作成</a>
+        <hr>
+        
+        <h5 id="A">Aページの用語</h5>
+        <div class="row">
+            {{ range .wikiForScreenA }}
+                <div class="col-sm-3">
 
-                    <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
-                    <div class="card-body" style="background-color: #F5FFFA;">
-                        <h5 class="card-title">{{.Title}}</h5>
-                        <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
-                        <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
+                    <div class="card" style="width: 12rem;  margin-bottom: 1em;">
+
+                        <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt="">
+                        <div class="card-body" style="background-color: #F5FFFA;">
+                            <h5 class="card-title">{{.Title}}</h5>
+                            <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
+                            <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{ end }}
-    </div>
+            {{ end }}
+        </div>
 
-    <hr>
-    <h5>Bページの用語</h5>
-    <div class="row">
-        {{ range .wikiForScreenB }}
-            <div class="col-sm-2">
+        <hr>
+        <h5 id="B">Bページの用語</h5>
+        <div class="row">
+            {{ range .wikiForScreenB }}
+            <div class="col-sm-3">
 
-                <div class="card" style="width: 12rem;">
+                    <div class="card" style="width: 12rem;  margin-bottom: 1em;">
 
-                    <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
-                    <div class="card-body" style="background-color: #F5FFFA;">
-                        <h5 class="card-title">{{.Title}}</h5>
-                        <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
-                        <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
+                        <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
+                        <div class="card-body" style="background-color: #F5FFFA;">
+                            <h5 class="card-title">{{.Title}}</h5>
+                            <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
+                            <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{ end }}
-    </div>
+            {{ end }}
+        </div>
 
-    <hr>
-    <h5>Cページの用語</h5>
-    <div class="row">
-        {{ range .wikiForScreenC }}
-            <div class="col-sm-2">
+        <hr>
+        <h5 id="C">Cページの用語</h5>
+        <div class="row">
+            {{ range .wikiForScreenC }}
+            <div class="col-sm-3">
 
-                <div class="card" style="width: 12rem;">
+                    <div class="card" style="width: 12rem;  margin-bottom: 1em;">
 
-                    <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
-                    <div class="card-body" style="background-color: #F5FFFA;">
-                        <h5 class="card-title">{{.Title}}</h5>
-                        <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
-                        <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
+                        <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
+                        <div class="card-body" style="background-color: #F5FFFA;">
+                            <h5 class="card-title">{{.Title}}</h5>
+                            <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
+                            <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{ end }}
+            {{ end }}
+        </div>
+
+
     </div>
+</div>
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
     <script src="/assets/js/index.js"></script>
