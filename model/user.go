@@ -6,7 +6,7 @@ import "github.com/jinzhu/gorm"
  * ユーザ全件取得
  */
 func GetAllUser() []User {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(get_all_user)")
 	}
@@ -23,7 +23,7 @@ func GetAllUser() []User {
  * ユーザ一件取得
  */
 func GetUserDetail(id int) User {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(get_user_detail)")
 	}
@@ -38,7 +38,7 @@ func GetUserDetail(id int) User {
  * ユーザ作成
  */
 func CreateUser(name string, password string) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(create_user)")
 	}
@@ -51,7 +51,7 @@ func CreateUser(name string, password string) {
  * ユーザの更新
  */
 func UpdateUser(id int, name string, password string) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(update_user)")
 	}
