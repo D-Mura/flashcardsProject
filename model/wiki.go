@@ -10,7 +10,7 @@ import (
  * Wiki一覧取得
  */
 func GetAllWiki(bySorted string) ([]Wiki, []Wiki, []Wiki) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(GetAllWiki())")
 	}
@@ -55,7 +55,7 @@ func GetAllWiki(bySorted string) ([]Wiki, []Wiki, []Wiki) {
  * Wiki詳細取得
  */
 func GetWikiDetail(id int) Wiki {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(GetWikiDetail())")
 	}
@@ -77,7 +77,7 @@ func GetWikiDetail(id int) Wiki {
  * Wikiの削除
  */
 func DeleteWiki(id int) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(update_wiki)")
 	}
@@ -92,7 +92,7 @@ func DeleteWiki(id int) {
  * Wikiの新規作成
  */
 func CreateWiki(wiki Wiki) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(create_wiki)")
 	}
@@ -106,7 +106,7 @@ func CreateWiki(wiki Wiki) {
  */
 func UpdateWiki(id int, nWiki Wiki) {
 
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(update_wiki)")
 	}
@@ -125,7 +125,7 @@ func UpdateWiki(id int, nWiki Wiki) {
  * Wikiの検索
  */
 func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(serach_wiki)")
 	}
@@ -167,7 +167,7 @@ func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
  * Wiki画像の更新
  */
 func UpdateWikiPicture(id int, pictName string) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(update_wiki_picture)")
 	}

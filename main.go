@@ -14,7 +14,7 @@ import (
  * DB初期化処理
  */
 func db_init() {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		fmt.Println("failed to connect database(init)")
 	}
