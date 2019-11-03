@@ -11,7 +11,7 @@
     </div>
     <br>
 
-    <div class="card mb-3" style="max-width: 75%">
+    <div class="card card-detail-size mb-3">
         <div class="row no-gutters">
             <div class="col-md-5">
                 <img src="/assets/image/{{.wiki.PictureName}}" class="card-img">
@@ -21,13 +21,13 @@
                     <p><button class="con btn btn-primary" name="id" value="{{.wiki.ID}}">画像更新</button></p>
                 </form>
             </div>
-            <div class="col-md-7" style=" background-color: #F5FFFA;">
+            <div class="col-md-7 card-color">
                 <div class="card-body">
                     <p class="card-text">
                         <form method="post" action="/update_wiki/{{.wiki.ID}}">
                             <p class="card-title">用語：<input type="text" name="title" size="30" placeholder="入力してください" value="{{.wiki.Title}}"></p>
                             <p>意味：<br>
-                                <textarea name="text" rows="3" style="width: 300px;">{{.wiki.Body.Text}}</textarea>
+                                <textarea name="text" rows="7" style="width: 300px;">{{.wiki.Body.Text}}</textarea>
                             </p>
                             <p>作成者：<input type="text" name="author" size="28" value="{{.wiki.Body.Author}}"></p>
                             <p>参考：<input type="url" name="url" size="30" value="{{.wiki.Body.Url}}"></p>
