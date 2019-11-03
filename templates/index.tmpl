@@ -11,7 +11,7 @@
     </div>
 
     <div class="row">
-        <div class="col-2" style="background-color: #F5FFFA;">
+        <div class="col-2 sidebar">
             <a class="navbar-brand" href="#">サイドバー</a>
             <ul>
                 <li class="nav-item active">
@@ -58,10 +58,10 @@
             {{ range .wikiForScreenA }}
                 <div class="col-sm-3">
 
-                    <div class="card" style="width: 12rem;  margin-bottom: 1em;">
+                    <div class="card card-size">
 
                         <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt="">
-                        <div class="card-body" style="background-color: #F5FFFA;">
+                        <div class="card-body card-color">
                             <h5 class="card-title">{{.Title}}</h5>
                             <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
                             <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
@@ -77,10 +77,10 @@
             {{ range .wikiForScreenB }}
             <div class="col-sm-3">
 
-                    <div class="card" style="width: 12rem;  margin-bottom: 1em;">
+                    <div class="card card-size">
 
                         <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
-                        <div class="card-body" style="background-color: #F5FFFA;">
+                        <div class="card-body card-color">
                             <h5 class="card-title">{{.Title}}</h5>
                             <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
                             <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
@@ -96,10 +96,10 @@
             {{ range .wikiForScreenC }}
             <div class="col-sm-3">
 
-                    <div class="card" style="width: 12rem;  margin-bottom: 1em;">
+                    <div class="card card-size">
 
                         <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
-                        <div class="card-body" style="background-color: #F5FFFA;">
+                        <div class="card-body card-color">
                             <h5 class="card-title">{{.Title}}</h5>
                             <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
                             <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>

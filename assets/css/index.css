@@ -1,3 +1,14 @@
 .header{
     background-color: #F5FFFA;
 }
+.sidebar, .card-color{
+    background-color: #F5FFFA;
+}
+
+.card-size{
+    width: 12rem;  margin-bottom: 1em;
+}
+
+.card-detail-size{
+    max-width: 100%;
+}
