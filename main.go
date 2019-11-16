@@ -4,11 +4,17 @@ import (
 	"flashcardsProject/controller"
 	"flashcardsProject/model"
 	"fmt"
+	"log"
+	"net/http"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
+
+var LoginInfo model.SessionInfo
 
 /*
  * DB初期化処理
@@ -29,6 +35,9 @@ func db_init() {
 func main() {
 	r := gin.Default()
 
+	store := cookie.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("mysession", store))
+
 	// 静的ファイルの読み込み
 	r.Static("/assets", "./assets")
 
@@ -36,6 +45,12 @@ func main() {
 	r.LoadHTMLGlob("./templates/*")
 
 	db_init()
+
+	r.POST("/login", PostLogin)
+
+	r.Use(sessionCheck())
+
+	r.POST("/logout", PostLogout)
 
 	// ユーザ情報全件取得
 	r.GET("/user", controller.GetAllUser)
@@ -86,4 +101,82 @@ func main() {
 	*/
 
 	r.Run()
+}
+
+func sessionCheck() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		log.Println("aaaaa")
+		session := sessions.Default(c)
+		LoginInfo.UserId = session.Get("UserId")
+		log.Println(session.Get("UserId"))
+
+		// セッションがない場合、ログインフォームをだす
+		if LoginInfo.UserId == nil {
+			log.Println("ログインしていません")
+			//c.Redirect(http.StatusMovedPermanently, "/wiki")
+			//c.Abort() // これがないと続けて処理されてしまう
+		} else {
+			log.Println("cc")
+
+			c.Set("UserId", LoginInfo.UserId) // ユーザidをセット
+			c.Next()
+		}
+		log.Println("ログインチェック終わり")
+	}
+}
+
+func Logout(c *gin.Context) {
+
+	//セッションからデータを破棄する
+	session := sessions.Default(c)
+	log.Println("セッション取得")
+	session.Clear()
+	log.Println("クリア処理")
+	session.Save()
+
+}
+
+func Login(c *gin.Context, UserId string) {
+	log.Println("bbb")
+
+	//セッションにデータを格納する
+	session := sessions.Default(c)
+	session.Set("UserId", UserId)
+	session.Save()
+}
+
+func PostLogin(c *gin.Context) {
+	log.Println("ログイン処理")
+	UserId := c.PostForm("userId")
+	Password := c.PostForm("password")
+
+	log.Println(UserId + " " + Password)
+	// login check
+	if UserId != "test" || Password != "test" {
+		GetLogout(c)
+	} else {
+		Login(c, UserId) // // 同じパッケージ内のログイン処理
+
+		c.Redirect(http.StatusMovedPermanently, "/wiki")
+	}
+
+}
+
+func PostLogout(c *gin.Context) {
+	log.Println("ログアウト処理")
+	Logout(c) // 同じパッケージ内のログアウト処理
+
+	c.HTML(200, "login.tmpl", gin.H{
+		"Error": "",
+	})
+}
+
+func GetLogout(c *gin.Context) {
+	log.Println("ログアウト処理")
+	Logout(c) // 同じパッケージ内のログアウト処理
+
+	c.HTML(200, "login.tmpl", gin.H{
+		"Error": "error",
+	})
 }

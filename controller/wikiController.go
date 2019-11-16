@@ -14,6 +14,7 @@ import (
 
 // Wiki全件取得
 func GetAllWiki(c *gin.Context) {
+	UserId, _ := c.Get("UserId")
 	bySorted := "title"
 	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki(bySorted)
 
@@ -24,11 +25,14 @@ func GetAllWiki(c *gin.Context) {
 		"wikiForScreenB": wikiForScreenB,
 		"wikiForScreenC": wikiForScreenC,
 		"isSearched":     isSearched,
+		"UserId":         UserId,
 	})
 }
 
 // Wikiのソート
 func SortAllWiki(c *gin.Context) {
+	UserId, _ := c.Get("UserId")
+
 	bySorted := c.Query("sort-btn")
 	wikiForScreenA, wikiForScreenB, wikiForScreenC := model.GetAllWiki(bySorted)
 
@@ -38,11 +42,14 @@ func SortAllWiki(c *gin.Context) {
 		"wikiForScreenB": wikiForScreenB,
 		"wikiForScreenC": wikiForScreenC,
 		"isSearched":     isSearched,
+		"UserId":         UserId,
 	})
 }
 
 // Wiki内容取得
 func GetWikiDetail(c *gin.Context) {
+	UserId, _ := c.Get("UserId")
+
 	num := c.Param("id")
 	id, err := strconv.Atoi(num)
 	if err != nil {
@@ -52,12 +59,14 @@ func GetWikiDetail(c *gin.Context) {
 	wiki := model.GetWikiDetail(id)
 
 	c.HTML(200, "detail.tmpl", gin.H{
-		"wiki": wiki,
+		"wiki":   wiki,
+		"UserId": UserId,
 	})
 }
 
 // Wikiの削除
 func DeleteWiki(c *gin.Context) {
+
 	n := c.Param("id")
 	id, err := strconv.Atoi(n)
 	if err != nil {
@@ -140,6 +149,8 @@ func UpdateWiki(c *gin.Context) {
 
 // SearchWiki
 func SearchWiki(c *gin.Context) {
+	UserId, _ := c.Get("UserId")
+
 	word := c.PostForm("word")
 	option := c.PostForm("search-option")
 	log.Println(option)
@@ -151,6 +162,7 @@ func SearchWiki(c *gin.Context) {
 		"wikiForScreenB": wikiForScreenB,
 		"wikiForScreenC": wikiForScreenC,
 		"isSearched":     isSearched,
+		"UserId":         UserId,
 	})
 
 }
