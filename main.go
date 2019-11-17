@@ -152,8 +152,9 @@ func PostLogin(c *gin.Context) {
 	Password := c.PostForm("password")
 
 	log.Println(UserId + " " + Password)
+
 	// login check
-	if UserId != "test" || Password != "test" {
+	if CheckUser(UserId, Password) == false {
 		GetLogout(c)
 	} else {
 		Login(c, UserId) // // 同じパッケージ内のログイン処理
@@ -179,4 +180,24 @@ func GetLogout(c *gin.Context) {
 	c.HTML(200, "login.tmpl", gin.H{
 		"Error": "error",
 	})
+}
+
+func CheckUser(userId string, password string) bool {
+
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	if err != nil {
+		panic("failed to connect database(create_user)")
+	}
+	defer db.Close()
+
+	auth := false
+	var user []model.User
+	db.Find(&user)
+	for _, w := range user {
+		if userId == w.Name && password == w.Password {
+			auth = true
+			break
+		}
+	}
+	return auth
 }
