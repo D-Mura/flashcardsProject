@@ -5,7 +5,6 @@ import (
 	"flashcardsProject/model"
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -46,27 +45,27 @@ func main() {
 
 	db_init()
 
-	r.POST("/login", PostLogin)
+	r.POST("/login", controller.PostLogin)
 
 	r.Use(sessionCheck())
 
-	r.POST("/logout", PostLogout)
+	r.POST("/logout", controller.PostLogout)
+	/*
+		// ユーザ情報全件取得
+		r.GET("/user", controller.GetAllUser)
 
-	// ユーザ情報全件取得
-	r.GET("/user", controller.GetAllUser)
+		// ユーザ情報を一件取得
+		r.GET("/user/:id", controller.GetUserDetail)
 
-	// ユーザ情報を一件取得
-	r.GET("/user/:id", controller.GetUserDetail)
+		// ユーザ新規作成
+		r.POST("/new_user", controller.CreateUser)
 
-	// ユーザ新規作成
-	r.POST("/new_user", controller.CreateUser)
+		// ユーザの更新
+		r.POST("/user/:id/update", controller.UpdateUser)
 
-	// ユーザの更新
-	r.POST("/user/:id/update", controller.UpdateUser)
-
-	// ユーザの削除
-	r.POST("/user/:id/delete", controller.DeleteUser)
-
+		// ユーザの削除
+		r.POST("/user/:id/delete", controller.DeleteUser)
+	*/
 	// Wiki全件取得
 	r.GET("/wiki", controller.GetAllWiki)
 
@@ -106,7 +105,6 @@ func main() {
 func sessionCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		log.Println("aaaaa")
 		session := sessions.Default(c)
 		LoginInfo.UserId = session.Get("UserId")
 		log.Println(session.Get("UserId"))
@@ -117,87 +115,10 @@ func sessionCheck() gin.HandlerFunc {
 			//c.Redirect(http.StatusMovedPermanently, "/wiki")
 			//c.Abort() // これがないと続けて処理されてしまう
 		} else {
-			log.Println("cc")
 
 			c.Set("UserId", LoginInfo.UserId) // ユーザidをセット
 			c.Next()
 		}
 		log.Println("ログインチェック終わり")
 	}
-}
-
-func Logout(c *gin.Context) {
-
-	//セッションからデータを破棄する
-	session := sessions.Default(c)
-	log.Println("セッション取得")
-	session.Clear()
-	log.Println("クリア処理")
-	session.Save()
-
-}
-
-func Login(c *gin.Context, UserId string) {
-	log.Println("bbb")
-
-	//セッションにデータを格納する
-	session := sessions.Default(c)
-	session.Set("UserId", UserId)
-	session.Save()
-}
-
-func PostLogin(c *gin.Context) {
-	log.Println("ログイン処理")
-	UserId := c.PostForm("userId")
-	Password := c.PostForm("password")
-
-	log.Println(UserId + " " + Password)
-
-	// login check
-	if CheckUser(UserId, Password) == false {
-		GetLogout(c)
-	} else {
-		Login(c, UserId) // // 同じパッケージ内のログイン処理
-
-		c.Redirect(http.StatusMovedPermanently, "/wiki")
-	}
-
-}
-
-func PostLogout(c *gin.Context) {
-	log.Println("ログアウト処理")
-	Logout(c) // 同じパッケージ内のログアウト処理
-
-	c.HTML(200, "login.tmpl", gin.H{
-		"Error": "",
-	})
-}
-
-func GetLogout(c *gin.Context) {
-	log.Println("ログアウト処理")
-	Logout(c) // 同じパッケージ内のログアウト処理
-
-	c.HTML(200, "login.tmpl", gin.H{
-		"Error": "error",
-	})
-}
-
-func CheckUser(userId string, password string) bool {
-
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
-	if err != nil {
-		panic("failed to connect database(create_user)")
-	}
-	defer db.Close()
-
-	auth := false
-	var user []model.User
-	db.Find(&user)
-	for _, w := range user {
-		if userId == w.Name && password == w.Password {
-			auth = true
-			break
-		}
-	}
-	return auth
 }
