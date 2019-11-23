@@ -12,6 +12,15 @@
 
     <div class="row">
         <div class="col-2 sidebar">
+            {{ if .UserId }}
+                {{ template "logout" . }}
+            {{ else }}
+                <form action="/login" method="POST">
+                    <p>ID: <input type="text" name="userId"></p>
+                    <p>PASS: <input type="password" name="password"></p>
+                    <p><input type="submit" value="ログイン"></p>
+                </form>
+            {{ end }}
             <a class="navbar-brand" href="#">サイドバー</a>
             <ul>
                 <li class="nav-item active">
@@ -50,7 +59,9 @@
         </div>
         {{ end }}
 
+        {{ if .UserId }}
         <a href="new_wiki">新しい用語の作成</a>
+        {{ end }}
         <hr>
         
         <h5 id="A">Aページの用語</h5>

@@ -4,11 +4,16 @@ import (
 	"flashcardsProject/controller"
 	"flashcardsProject/model"
 	"fmt"
+	"log"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
+
+var LoginInfo model.SessionInfo
 
 /*
  * DB初期化処理
@@ -29,6 +34,9 @@ func db_init() {
 func main() {
 	r := gin.Default()
 
+	store := cookie.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("mysession", store))
+
 	// 静的ファイルの読み込み
 	r.Static("/assets", "./assets")
 
@@ -37,21 +45,27 @@ func main() {
 
 	db_init()
 
-	// ユーザ情報全件取得
-	r.GET("/user", controller.GetAllUser)
+	r.POST("/login", controller.PostLogin)
 
-	// ユーザ情報を一件取得
-	r.GET("/user/:id", controller.GetUserDetail)
+	r.Use(sessionCheck())
 
-	// ユーザ新規作成
-	r.POST("/new_user", controller.CreateUser)
+	r.POST("/logout", controller.PostLogout)
+	/*
+		// ユーザ情報全件取得
+		r.GET("/user", controller.GetAllUser)
 
-	// ユーザの更新
-	r.POST("/user/:id/update", controller.UpdateUser)
+		// ユーザ情報を一件取得
+		r.GET("/user/:id", controller.GetUserDetail)
 
-	// ユーザの削除
-	r.POST("/user/:id/delete", controller.DeleteUser)
+		// ユーザ新規作成
+		r.POST("/new_user", controller.CreateUser)
 
+		// ユーザの更新
+		r.POST("/user/:id/update", controller.UpdateUser)
+
+		// ユーザの削除
+		r.POST("/user/:id/delete", controller.DeleteUser)
+	*/
 	// Wiki全件取得
 	r.GET("/wiki", controller.GetAllWiki)
 
@@ -86,4 +100,25 @@ func main() {
 	*/
 
 	r.Run()
+}
+
+func sessionCheck() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		session := sessions.Default(c)
+		LoginInfo.UserId = session.Get("UserId")
+		log.Println(session.Get("UserId"))
+
+		// セッションがない場合、ログインフォームをだす
+		if LoginInfo.UserId == nil {
+			log.Println("ログインしていません")
+			//c.Redirect(http.StatusMovedPermanently, "/wiki")
+			//c.Abort() // これがないと続けて処理されてしまう
+		} else {
+
+			c.Set("UserId", LoginInfo.UserId) // ユーザidをセット
+			c.Next()
+		}
+		log.Println("ログインチェック終わり")
+	}
 }

@@ -23,3 +23,7 @@ type User struct {
 	Name     string
 	Password string
 }
+
+type SessionInfo struct {
+	UserId interface{}
+}

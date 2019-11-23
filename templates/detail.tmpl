@@ -15,11 +15,13 @@
         <div class="row no-gutters">
             <div class="col-md-5">
                 <img src="/assets/image/{{.wiki.PictureName}}" class="card-img">
+                {{ if .UserId }}
                 <form method="post" enctype="multipart/form-data" action="/update_wiki_picture">
                     <br>
                     <p><input type="file" name="file"></p>
                     <p><button class="con btn btn-primary" name="id" value="{{.wiki.ID}}">画像更新</button></p>
                 </form>
+                {{ end }}
             </div>
             <div class="col-md-7 card-color">
                 <div class="card-body">
@@ -48,11 +50,15 @@
                                     {{end}}                                   
                                 </select>
                             </p>
+                            {{ if .UserId }}
                             <button class="con btn btn-primary">更新</button>
+                            {{ end }}
                         </form> 
+                        {{ if .UserId }}
                         <form method="post" action="/delete_wiki/{{.wiki.ID}}">
                             <button class="del btn btn-primary">削除</button>
                         </form>
+                        {{ end }}
                     </p>
                 </div>
             </div>
