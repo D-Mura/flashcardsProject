@@ -9,20 +9,62 @@
     <div class="header">
         <h1><a href="/wiki"><img src="/assets/image/logo.png" width="256" height="128" alt="logo"></a></h1>
     </div>
+    <h4>新規作成</h4>
+    <hr>
     <form method="post" enctype="multipart/form-data" action="/create_wiki">
-        <p>用語：<input type="text" name="title" size="30" placeholder="入力してください" ></p>
-        <p>意味：<input type="text" name="text" ></p>
-        <p>作成者：<input type="text" name="author" ></p>
-        <p>参考：<input type="url" name="url" ></p>
-        <p>出現画面：
-            <select name="screenId">
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">用語　　</span>
+            </div>
+            <input type="text" name="title" class="form-control">
+        </div>
+        
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">意味　　</span>
+            </div>
+            <textarea type="text" class="form-control" name="text" rows="7"></textarea>
+        </div>
+
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">作成者　</span>
+        </div>
+        <input type="text" name="author" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">参考　　</span>
+        </div>
+        <input type="url" name="url" class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">出現画面</span>
+        </div>
+            <select name="screenId" class="form-control">
                 <option value="1">A ページ</option>
                 <option value="2">B ページ</option>
-                <option value="3">C ページ</option>
-            </select>
-        </p>
+                <option value="3">C ページ</option>               
+            </select>                            
+        </div>
+
+        
         <p>画像ファイル：<input type="file" name="file"></p>
-        <button class="con btn btn-primary">作成</button>
+        <br>
+        
+        <div class="row">
+            <div class="col-1">
+            </div>
+            <div class="col-10">
+                <button class="con btn btn-primary btn-block">作成</button>
+            </div>
+            <div class="col-1">
+            </div>            
+        </div>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

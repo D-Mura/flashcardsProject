@@ -9,7 +9,7 @@
     <div class="header">
         <h1><a href="/wiki"><img src="/assets/image/logo.png" width="256" height="128" alt="logo"></a></h1>
     </div>
-    <br>
+    
 
     <div class="card card-detail-size mb-3">
         <div class="row no-gutters">
@@ -19,7 +19,13 @@
                 <form method="post" enctype="multipart/form-data" action="/update_wiki_picture">
                     <br>
                     <p><input type="file" name="file"></p>
-                    <p><button class="con btn btn-primary" name="id" value="{{.wiki.ID}}">画像更新</button></p>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-10">
+                            <button class="con btn btn-primary btn-block" name="id" value="{{.wiki.ID}}">画像更新</button>
+                        </div>
+                        <div class="col-1"></div>            
+                    </div>   
                 </form>
                 {{ end }}
             </div>
@@ -27,14 +33,39 @@
                 <div class="card-body">
                     <p class="card-text">
                         <form method="post" action="/update_wiki/{{.wiki.ID}}">
-                            <p class="card-title">用語：<input type="text" name="title" size="30" placeholder="入力してください" value="{{.wiki.Title}}"></p>
-                            <p>意味：<br>
-                                <textarea name="text" rows="7" style="width: 300px;">{{.wiki.Body.Text}}</textarea>
-                            </p>
-                            <p>作成者：<input type="text" name="author" size="28" value="{{.wiki.Body.Author}}"></p>
-                            <p>参考：<input type="url" name="url" size="30" value="{{.wiki.Body.Url}}"></p>
-                            <p>出現画面：
-                                <select name="screenId">
+                            <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">用語　　</span>
+                            </div>
+                            <input type="text" name="title" class="form-control" value="{{.wiki.Title}}">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">意味　　</span>
+                                </div>
+                                <textarea type="text" class="form-control" name="text" rows="8">{{.wiki.Body.Text}}</textarea>
+                            </div>
+
+                            <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">作成者　</span>
+                            </div>
+                            <input type="text" name="author" class="form-control" value="{{.wiki.Body.Author}}">
+                            </div>
+
+                            <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">参考　　</span>
+                            </div>
+                            <input type="url" name="url" class="form-control" value="{{.wiki.Body.Url}}">
+                            </div>
+
+                            <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">出現画面</span>
+                            </div>
+                                <select name="screenId" class="form-control">
                                     {{if eq .wiki.ScreenID 1}}
                                         <option value="1" selected>A ページ</option>
                                         <option value="2">B ページ</option>
@@ -48,15 +79,31 @@
                                         <option value="2">B ページ</option>
                                         <option value="3" selected>C ページ</option>
                                     {{end}}                                   
-                                </select>
-                            </p>
+                                </select>                            
+                            </div>
+
                             {{ if .UserId }}
-                            <button class="con btn btn-primary">更新</button>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-10">
+                                    <button class="con btn btn-primary btn-block">更新</button>
+                                </div>
+                                <div class="col-1"></div>            
+                            </div>
                             {{ end }}
                         </form> 
+
                         {{ if .UserId }}
                         <form method="post" action="/delete_wiki/{{.wiki.ID}}">
-                            <button class="del btn btn-primary">削除</button>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-10">
+                                    <button class="del btn btn-primary btn-block">削除</button>
+                                </div>
+                                <div class="col-1"></div>            
+                            </div>                        
                         </form>
                         {{ end }}
                     </p>
