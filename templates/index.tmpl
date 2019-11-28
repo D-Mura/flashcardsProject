@@ -18,9 +18,12 @@
                 <form action="/login" method="POST">
                     <p>ID: <input type="text" name="userId"></p>
                     <p>PASS: <input type="password" name="password"></p>
-                    <p><input type="submit" value="ログイン"></p>
+                    <button class="btn btn-primary btn-block">ログイン</button>
                 </form>
+                <small><a href="signin">未登録の方へ</a></small>
+                <br>
             {{ end }}
+            <br>
             <a class="navbar-brand" href="#">サイドバー</a>
             <ul>
                 <li class="nav-item active">

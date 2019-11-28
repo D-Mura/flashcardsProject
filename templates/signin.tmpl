@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Gin WAF</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">    
+    <link rel="stylesheet" href="/assets/css/index.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1><a href="/wiki"><img src="/assets/image/logo.png" width="256" height="128" alt="logo"></a></h1>
+    </div>
+    <h4>ユーザ登録</h4>
+    <hr>
+    <form method="post" action="/signin">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">名前　　　</span>
+                    </div>
+                    <input type="text" name="name" class="form-control">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">パスワード</span>
+                    </div>
+                    <input type="password" name="password" class="form-control">
+                </div>
+                <button class="con btn btn-primary btn-block">作成</button>
+            </div>
+            <div class="col-1"></div>            
+        </div>                 
+
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+    <script src="/assets/js/index.js"></script>
+</div>
+</body>
+</html>
