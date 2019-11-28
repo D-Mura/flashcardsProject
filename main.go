@@ -47,6 +47,10 @@ func main() {
 
 	r.POST("/login", controller.PostLogin)
 
+	r.GET("/signin", controller.GetSignIn)
+
+	r.POST("/signin", controller.PostSignIn)
+
 	r.Use(sessionCheck())
 
 	r.POST("/logout", controller.PostLogout)
