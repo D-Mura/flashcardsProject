@@ -12,3 +12,8 @@
 .card-detail-size{
     max-width: 100%;
 }
+
+.search-box{
+    margin-right: 5px; 
+    margin-left: 5px;
+}
