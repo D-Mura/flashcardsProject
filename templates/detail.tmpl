@@ -30,8 +30,14 @@
                 {{ end }}
             </div>
             <div class="col-md-7 card-color">
-                <div class="card-body">
+                <div class="card-body" style="padding-top: 0;">
                     <p class="card-text">
+                        <form method="post" action="/update_good/{{.wiki.ID}}">
+                            <div class="text-right">
+                                <button class="btn btn-light btn-sm input-val">👍 {{.wiki.Good}}</button>
+                            </div>
+                        </form>
+
                         <form method="post" action="/update_wiki/{{.wiki.ID}}">
                             <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -44,7 +50,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">意味　　</span>
                                 </div>
-                                <textarea type="text" class="form-control input-val" name="text" rows="8">{{.wiki.Body.Text}}</textarea>
+                                <textarea type="text" class="form-control input-val" name="text" rows="6">{{.wiki.Body.Text}}</textarea>
                             </div>
 
                             <div class="input-group mb-3">

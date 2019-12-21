@@ -164,6 +164,22 @@ func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
 }
 
 /*
+ * Wikiの削除
+ */
+func UpdateGood(id int) {
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	if err != nil {
+		panic("failed to connect database(update_good)")
+	}
+	defer db.Close()
+
+	var wiki Wiki
+	db.First(&wiki, id)
+	wiki.Good += 1
+	db.Debug().Save(&wiki)
+}
+
+/*
  * Wiki画像の更新
  */
 func UpdateWikiPicture(id int, pictName string) {
