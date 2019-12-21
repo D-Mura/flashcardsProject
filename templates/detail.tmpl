@@ -37,35 +37,35 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">用語　　</span>
                             </div>
-                            <input type="text" name="title" class="form-control" value="{{.wiki.Title}}">
+                            <input type="text" name="title" class="form-control input-val" value="{{.wiki.Title}}">
                             </div>
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">意味　　</span>
                                 </div>
-                                <textarea type="text" class="form-control" name="text" rows="8">{{.wiki.Body.Text}}</textarea>
+                                <textarea type="text" class="form-control input-val" name="text" rows="8">{{.wiki.Body.Text}}</textarea>
                             </div>
 
                             <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">作成者　</span>
                             </div>
-                            <input type="text" name="author" class="form-control" value="{{.wiki.Body.Author}}">
+                            <input type="text" name="author" class="form-control input-val" value="{{.wiki.Body.Author}}">
                             </div>
 
                             <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">参考　　</span>
                             </div>
-                            <input type="url" name="url" class="form-control" value="{{.wiki.Body.Url}}">
+                            <input type="url" name="url" class="form-control input-val" value="{{.wiki.Body.Url}}">
                             </div>
 
                             <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">出現画面</span>
                             </div>
-                                <select name="screenId" class="form-control">
+                                <select name="screenId" class="form-control input-val">
                                     {{if eq .wiki.ScreenID 1}}
                                         <option value="1" selected>A ページ</option>
                                         <option value="2">B ページ</option>
