@@ -164,7 +164,7 @@ func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
 }
 
 /*
- * Wikiの削除
+ * Good数の更新(+1)
  */
 func UpdateGood(id int) {
 	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
