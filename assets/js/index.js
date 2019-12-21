@@ -13,7 +13,7 @@ $('.del').click(function(){
 
 $(function(){
     var btnSize = $('button').length;
-    if(btnSize > 0){
+    if(btnSize > 1){
         $('.input-val').prop('disabled', false);
     }else{
         $('.input-val').prop('disabled', true);

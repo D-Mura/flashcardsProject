@@ -167,6 +167,18 @@ func SearchWiki(c *gin.Context) {
 
 }
 
+// UpdateGood
+func UpdateGood(c *gin.Context) {
+
+	n := c.Param("id")
+	id, err := strconv.Atoi(n)
+	if err != nil {
+		panic(err)
+	}
+	model.UpdateGood(id)
+	c.Redirect(302, "/wiki/"+n)
+}
+
 // UpdateWikiPicture
 func UpdateWikiPicture(c *gin.Context) {
 	n := c.PostForm("id")

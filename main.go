@@ -95,6 +95,9 @@ func main() {
 	// Wikiの検索
 	r.POST("/search_wiki", controller.SearchWiki)
 
+	// いいね
+	r.POST("/update_good/:id", controller.UpdateGood)
+
 	// Wiki画像の更新
 	r.POST("/update_wiki_picture", controller.UpdateWikiPicture)
 
