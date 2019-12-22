@@ -79,7 +79,11 @@ func DeleteWiki(c *gin.Context) {
 
 // Wiki新規作成
 func NewWiki(c *gin.Context) {
-	c.HTML(200, "new.tmpl", gin.H{})
+	UserId, _ := c.Get("UserId")
+
+	c.HTML(200, "new.tmpl", gin.H{
+		"UserId": UserId,
+	})
 }
 
 // Wiki作成
@@ -147,7 +151,7 @@ func UpdateWiki(c *gin.Context) {
 
 }
 
-// SearchWiki
+// Wikiの検索
 func SearchWiki(c *gin.Context) {
 	UserId, _ := c.Get("UserId")
 
@@ -167,7 +171,7 @@ func SearchWiki(c *gin.Context) {
 
 }
 
-// UpdateGood
+// Wikiにいいねをつける
 func UpdateGood(c *gin.Context) {
 
 	n := c.Param("id")
@@ -179,7 +183,7 @@ func UpdateGood(c *gin.Context) {
 	c.Redirect(302, "/wiki/"+n)
 }
 
-// UpdateWikiPicture
+// Wikiの写真更新
 func UpdateWikiPicture(c *gin.Context) {
 	n := c.PostForm("id")
 	id, err := strconv.Atoi(n)
