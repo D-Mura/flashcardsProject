@@ -109,6 +109,7 @@ func main() {
 	r.Run()
 }
 
+// ログイン済みかセッションを確認
 func sessionCheck() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
