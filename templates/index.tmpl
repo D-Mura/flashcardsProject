@@ -87,7 +87,9 @@
 
                         <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt="">
                         <div class="card-body card-color">
-                            <h5 class="card-title">{{.Title}}</h5>
+                            <h5 class="card-title">{{.Title}}
+                                <div style="text-align: right"><small>👍 {{.Good}}</small></div>
+                            </h5>
                             <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
                             <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
                         </div>
@@ -106,7 +108,9 @@
 
                         <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
                         <div class="card-body card-color">
-                            <h5 class="card-title">{{.Title}}</h5>
+                            <h5 class="card-title">{{.Title}}
+                                <div style="text-align: right"><small>👍 {{.Good}}</small></div>
+                            </h5>
                             <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
                             <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
                         </div>
@@ -125,8 +129,9 @@
 
                         <img src="/assets/image/{{.PictureName}}" class="card-img-top" alt=>
                         <div class="card-body card-color">
-                            <h5 class="card-title">{{.Title}}</h5>
-                            <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
+                            <h5 class="card-title">{{.Title}}
+                                <div style="text-align: right"><small>👍 {{.Good}}</small></div>
+                            </h5>                            <p class="card-text"><small class="text-muted">Last Updated at: {{ .UpdatedAt.Format "2006/01/02 15:04:05" }}</small></p>
                             <a href="/wiki/{{.ID}}" class="btn btn-primary btn-block">詳細</a>
                         </div>
                     </div>

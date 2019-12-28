@@ -8,6 +8,7 @@ type Wiki struct {
 	Title       string
 	PictureName string
 	ScreenID    int
+	Good        int `gorm:"default:0"`
 }
 
 type Body struct {
