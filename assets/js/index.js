@@ -13,9 +13,11 @@ $('.del').click(function(){
 
 $(function(){
     var btnSize = $('button').length;
-    if(btnSize > 1){
-        $('.input-val').prop('disabled', false);
+    if(btnSize > 0){
+        $('.select-val').prop('disabled', false);
+        $('.input-val').prop('readonly', false);
     }else{
-        $('.input-val').prop('disabled', true);
+        $('.select-val').prop('disabled', true);
+        $('.input-val').prop('readonly', true);
     }
 });
