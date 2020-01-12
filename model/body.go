@@ -5,7 +5,7 @@ import (
 )
 
 /*
- * Good数の更新(+1)
+ * PV数の更新(+1)
  */
 func UpdatePageView(id int) {
 	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")

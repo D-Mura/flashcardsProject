@@ -7,6 +7,10 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+/*
+ * ファイル名のプレフィックス作成
+ * アップロード日をアンダーバーつなぎのフォーマットにする
+ */
 func MakeFileNamePrefix() string {
 
 	// ファイル名のプレフィックスを作成
@@ -14,6 +18,17 @@ func MakeFileNamePrefix() string {
 	layout := "2006_01_02_15_04_05"
 	return t.Format(layout) + "_"
 
+}
+
+func PushedGoodButton(user string, id int) bool {
+	goodUser := model.GetAllGood()
+
+	for _, u := range goodUser {
+		if u.GoodUser == user && u.WikiID == id {
+			return true
+		}
+	}
+	return false
 }
 
 func CheckUser(userId string, password string) bool {
