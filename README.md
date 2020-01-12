@@ -5,3 +5,4 @@
 - Golang 1.13
 - Gin
 - Gorm
+- MySQL
