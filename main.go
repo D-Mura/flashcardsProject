@@ -24,7 +24,7 @@ func db_init() {
 		fmt.Println("failed to connect database(init)")
 	}
 	defer db.Close()
-	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Wiki{}, &model.Body{}, &model.User{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Wiki{}, &model.Body{}, &model.User{}, &model.Good{})
 
 }
 

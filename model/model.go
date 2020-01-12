@@ -26,6 +26,12 @@ type User struct {
 	Password string
 }
 
+type Good struct {
+	gorm.Model
+	GoodUser string
+	WikiID   int
+}
+
 type SessionInfo struct {
 	UserId interface{}
 }

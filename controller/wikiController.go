@@ -50,6 +50,7 @@ func SortAllWiki(c *gin.Context) {
 func GetWikiDetail(c *gin.Context) {
 	UserId, _ := c.Get("UserId")
 
+	pushedGood := false
 	num := c.Param("id")
 	id, err := strconv.Atoi(num)
 	if err != nil {
@@ -58,9 +59,16 @@ func GetWikiDetail(c *gin.Context) {
 
 	wiki := model.GetWikiDetail(id)
 
+	// すでにGoodしたか判定
+	if UserId != nil {
+		user, _ := UserId.(string)
+		pushedGood = helper.PushedGoodButton(user, id)
+	}
+
 	c.HTML(200, "detail.tmpl", gin.H{
-		"wiki":   wiki,
-		"UserId": UserId,
+		"wiki":       wiki,
+		"UserId":     UserId,
+		"pushedGood": pushedGood,
 	})
 }
 
@@ -173,13 +181,17 @@ func SearchWiki(c *gin.Context) {
 
 // Wikiにいいねをつける
 func UpdateGood(c *gin.Context) {
+	UserId, _ := c.Get("UserId")
 
 	n := c.Param("id")
 	id, err := strconv.Atoi(n)
 	if err != nil {
 		panic(err)
 	}
+	user, _ := UserId.(string)
+	model.CreateGood(user, id)
 	model.UpdateGood(id)
+
 	c.Redirect(302, "/wiki/"+n)
 }
 
