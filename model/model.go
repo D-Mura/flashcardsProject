@@ -16,6 +16,7 @@ type Body struct {
 	Text   string
 	Author string
 	Url    string
+	PV     int `gorm:"default:0"`
 	WikiID int `gorm:"index"`
 }
 

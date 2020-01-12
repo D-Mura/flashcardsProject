@@ -64,12 +64,16 @@ func GetWikiDetail(id int) Wiki {
 	var wiki Wiki
 	var body Body
 
+	// BodyのPVを閲覧に応じて加算する
+	UpdatePageView(id)
+
 	db.Debug().Find(&wiki, id).Related(&body)
 
 	// 上記のSQLだと、wiki.Bodyに入らないので
 	// 代入する
 	wiki.Body = body
 	log.Println(wiki.Body)
+
 	return wiki
 }
 
