@@ -3,3 +3,6 @@
 !/assets/image/default.png
 !/assets/image/logo.png
 
+# ユーザ情報関連ページ
+/templates/userInfo.tmpl
+/templates/userInfoDetail.tmpl
