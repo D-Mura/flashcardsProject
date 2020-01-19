@@ -17,6 +17,12 @@ func PostSignIn(c *gin.Context) {
 	log.Println("aaaa")
 	name := c.PostForm("name")
 	password := c.PostForm("password")
-	model.CreateUser(name, password)
+	message := model.CreateUser(name, password)
+
+	if message != "" {
+		c.HTML(200, "signin.tmpl", gin.H{
+			"message": message,
+		})
+	}
 	c.Redirect(302, "/wiki")
 }

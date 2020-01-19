@@ -1,5 +1,5 @@
 $('.con').click(function(){
-    alert("POSTします");
+    alert("登録します");
 })
 
 $('.del').click(function(){

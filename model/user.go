@@ -1,6 +1,8 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 /*
  * ユーザ全件取得
@@ -37,14 +39,24 @@ func GetUserDetail(id int) User {
 /*
  * ユーザ作成
  */
-func CreateUser(name string, password string) {
+func CreateUser(name string, password string) string {
 	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(create_user)")
 	}
 	defer db.Close()
 
+	isDouble := CountUser(name)
+
+	msg := ""
+	if isDouble == true {
+		msg = "※ すでに登録されているユーザ名のため、登録できません"
+		return msg
+	}
+
 	db.Create(&User{Name: name, Password: password})
+
+	return msg
 }
 
 /*
@@ -79,4 +91,19 @@ func DeleteUser(id int) {
 	db.First(&user, id)
 	db.Delete(&user)
 
+}
+
+/*
+ * 登録できるユーザ名か重複確認
+ */
+func CountUser(name string) bool {
+	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	if err != nil {
+		panic("failed to connect database(count_user)")
+	}
+	defer db.Close()
+	var count int
+	db.Debug().Model(&User{}).Where("name = ?", name).Count(&count)
+
+	return count > 0
 }
