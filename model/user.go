@@ -1,6 +1,8 @@
 package model
 
 import (
+	"flashcardsProject/config"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -8,15 +10,16 @@ import (
  * ユーザ全件取得
  */
 func GetAllUser() []User {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(get_all_user)")
 	}
 
-	defer db.Close()
+	defer config.DB.Close()
 
 	var user []User
-	db.Find(&user)
+	config.DB.Find(&user)
 	return user
 
 }
@@ -25,14 +28,15 @@ func GetAllUser() []User {
  * ユーザ一件取得
  */
 func GetUserDetail(id int) User {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(get_user_detail)")
 	}
-	defer db.Close()
+	defer config.DB.Close()
 
 	var user User
-	db.First(&user, id)
+	config.DB.First(&user, id)
 	return user
 }
 
@@ -40,11 +44,12 @@ func GetUserDetail(id int) User {
  * ユーザ作成
  */
 func CreateUser(name string, password string) string {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(create_user)")
 	}
-	defer db.Close()
+	defer config.DB.Close()
 
 	isDouble := CountUser(name)
 
@@ -54,7 +59,7 @@ func CreateUser(name string, password string) string {
 		return msg
 	}
 
-	db.Create(&User{Name: name, Password: password})
+	config.DB.Create(&User{Name: name, Password: password})
 
 	return msg
 }
@@ -63,33 +68,35 @@ func CreateUser(name string, password string) string {
  * ユーザの更新
  */
 func UpdateUser(id int, name string, password string) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(update_user)")
 	}
-	defer db.Close()
+	defer config.DB.Close()
 
 	var user User
-	db.First(&user, id)
+	config.DB.First(&user, id)
 	user.Name = name
 	user.Password = password
-	db.Save(&user)
+	config.DB.Save(&user)
 }
 
 /*
  * ユーザの削除
  */
 func DeleteUser(id int) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(delete_user")
 	}
 
-	defer db.Close()
+	defer config.DB.Close()
 
 	var user User
-	db.First(&user, id)
-	db.Delete(&user)
+	config.DB.First(&user, id)
+	config.DB.Delete(&user)
 
 }
 
@@ -97,13 +104,14 @@ func DeleteUser(id int) {
  * 登録できるユーザ名か重複確認
  */
 func CountUser(name string) bool {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(count_user)")
 	}
-	defer db.Close()
+	defer config.DB.Close()
 	var count int
-	db.Debug().Model(&User{}).Where("name = ?", name).Count(&count)
+	config.DB.Debug().Model(&User{}).Where("name = ?", name).Count(&count)
 
 	return count > 0
 }

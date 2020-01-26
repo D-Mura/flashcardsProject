@@ -1,6 +1,7 @@
 package model
 
 import (
+	"flashcardsProject/config"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -10,17 +11,17 @@ import (
  * Wiki一覧取得
  */
 func GetAllWiki(bySorted string) ([]Wiki, []Wiki, []Wiki) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(GetAllWiki())")
 	}
-	defer db.Close()
 
 	var wiki []Wiki
 	if bySorted == "date" {
-		db.Debug().Order("updated_at").Find(&wiki)
+		config.DB.Debug().Order("updated_at").Find(&wiki)
 	} else {
-		db.Debug().Order("title").Find(&wiki)
+		config.DB.Debug().Order("title").Find(&wiki)
 
 	}
 
@@ -55,11 +56,11 @@ func GetAllWiki(bySorted string) ([]Wiki, []Wiki, []Wiki) {
  * Wiki詳細取得
  */
 func GetWikiDetail(id int) Wiki {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(GetWikiDetail())")
 	}
-	defer db.Close()
 
 	var wiki Wiki
 	var body Body
@@ -67,7 +68,7 @@ func GetWikiDetail(id int) Wiki {
 	// BodyのPVを閲覧に応じて加算する
 	UpdatePageView(id)
 
-	db.Debug().Find(&wiki, id).Related(&body)
+	config.DB.Debug().Find(&wiki, id).Related(&body)
 
 	// 上記のSQLだと、wiki.Bodyに入らないので
 	// 代入する
@@ -81,28 +82,28 @@ func GetWikiDetail(id int) Wiki {
  * Wikiの削除
  */
 func DeleteWiki(id int) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(update_wiki)")
 	}
-	defer db.Close()
 
 	var wiki Wiki
-	db.First(&wiki, id)
-	db.Delete(&wiki)
+	config.DB.First(&wiki, id)
+	config.DB.Delete(&wiki)
 }
 
 /*
  * Wikiの新規作成
  */
 func CreateWiki(wiki Wiki) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(create_wiki)")
 	}
 
-	defer db.Close()
-	db.Debug().Create(&wiki)
+	config.DB.Debug().Create(&wiki)
 }
 
 /*
@@ -110,18 +111,18 @@ func CreateWiki(wiki Wiki) {
  */
 func UpdateWiki(id int, nWiki Wiki) {
 
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(update_wiki)")
 	}
-	defer db.Close()
 
 	var wiki Wiki
-	db.First(&wiki, id)
+	config.DB.First(&wiki, id)
 	wiki.Title = nWiki.Title
 	wiki.ScreenID = nWiki.ScreenID
 	wiki.Body = nWiki.Body
-	db.Debug().Save(&wiki)
+	config.DB.Debug().Save(&wiki)
 
 }
 
@@ -129,7 +130,8 @@ func UpdateWiki(id int, nWiki Wiki) {
  * Wikiの検索
  */
 func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(serach_wiki)")
 	}
@@ -138,12 +140,12 @@ func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
 	// 全文検索: full-search
 	// 部分検索: partial-search
 	if option == "full-search" {
-		db.Debug().Where("title = ?", word).Find(&wiki)
+		config.DB.Debug().Where("title = ?", word).Find(&wiki)
 	} else if option == "partial-search" {
 		// SQLite3の場合、GLOBを用いる
 		// PostgresやMySQLでは異なるので注意
 		// ex-postgres)  "title ~ ?", "^"+word+"^"のようになると思われる
-		db.Debug().Where("title LIKE ?", "%"+word+"%").Find(&wiki)
+		config.DB.Debug().Where("title LIKE ?", "%"+word+"%").Find(&wiki)
 	}
 
 	var wikiForScreenA, wikiForScreenB, wikiForScreenC []Wiki
@@ -171,30 +173,30 @@ func SearchWiki(word string, option string) ([]Wiki, []Wiki, []Wiki) {
  * Good数の更新(+1)
  */
 func UpdateGood(id int) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(update_good)")
 	}
-	defer db.Close()
 
 	var wiki Wiki
-	db.First(&wiki, id)
+	config.DB.First(&wiki, id)
 	wiki.Good += 1
-	db.Debug().Save(&wiki)
+	config.DB.Debug().Save(&wiki)
 }
 
 /*
  * Wiki画像の更新
  */
 func UpdateWikiPicture(id int, pictName string) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(update_wiki_picture)")
 	}
-	defer db.Close()
 
 	var wiki Wiki
-	db.First(&wiki, id)
+	config.DB.First(&wiki, id)
 	wiki.PictureName = pictName
-	db.Debug().Save(&wiki)
+	config.DB.Debug().Save(&wiki)
 }

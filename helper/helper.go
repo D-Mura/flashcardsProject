@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"flashcardsProject/config"
 	"flashcardsProject/model"
 	"time"
 
@@ -32,16 +33,16 @@ func PushedGoodButton(user string, id int) bool {
 }
 
 func CheckUser(userId string, password string) bool {
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		panic("failed to connect database(create_user)")
 	}
-	defer db.Close()
 
 	auth := false
 	var user []model.User
-	db.Find(&user)
+	config.DB.Find(&user)
 	for _, w := range user {
 		if userId == w.Name && password == w.Password {
 			auth = true
