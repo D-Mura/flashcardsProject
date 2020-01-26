@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flashcardsProject/config"
 	"flashcardsProject/controller"
 	"flashcardsProject/model"
 	"fmt"
@@ -18,13 +19,15 @@ var LoginInfo model.SessionInfo
 /*
  * DB初期化処理
  */
-func db_init() {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+func DBInit() {
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
+	//db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
 	if err != nil {
 		fmt.Println("failed to connect database(init)")
 	}
-	defer db.Close()
-	db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Wiki{}, &model.Body{}, &model.User{}, &model.Good{})
+	defer config.DB.Close()
+	config.DB.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.Wiki{}, &model.Body{}, &model.User{}, &model.Good{})
 
 }
 
@@ -43,7 +46,7 @@ func main() {
 	// Templateの読み込み
 	r.LoadHTMLGlob("./templates/*")
 
-	db_init()
+	DBInit()
 
 	r.POST("/login", controller.PostLogin)
 

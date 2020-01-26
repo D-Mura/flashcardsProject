@@ -1,33 +1,37 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"flashcardsProject/config"
+
+	"github.com/jinzhu/gorm"
+)
 
 /*
  * Goodする
  */
 func CreateGood(user string, id int) {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(CreateGood())")
 	}
-	defer db.Close()
 
 	var good Good
 	good.GoodUser = user
 	good.WikiID = id
-	db.Debug().Create(&good)
+	config.DB.Debug().Create(&good)
 
 }
 
 func GetAllGood() []Good {
-	db, err := gorm.Open("mysql", "gorm:password@/flashcard?charset=utf8&parseTime=True&loc=Asia%2FTokyo")
+	var err error
+	config.DB, err = gorm.Open(config.GetUsingDBName(), config.DBUrl(config.BuildDBConfig()))
 	if err != nil {
 		panic("failed to connect database(CreateGood())")
 	}
-	defer db.Close()
 
 	var good []Good
-	db.Debug().Find(&good)
+	config.DB.Debug().Find(&good)
 
 	return good
 }
